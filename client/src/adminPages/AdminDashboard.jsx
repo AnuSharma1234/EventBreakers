@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { 
+X,
+Ban, 
+Pen,
   BarChart3, 
   Calendar, 
   Users, 
@@ -8,7 +11,8 @@ import {
   TrendingUp,
   Search,
   MoreHorizontal,
-  Star
+  Star,
+  Upload
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -166,7 +170,7 @@ const AdminDashboard = () => {
       time: '2:00 PM - 5:00 PM',
       venue: 'Design Studio',
       attendance: {
-        attended: 85,
+         attended: 85,
         capacity: 100,
         rate: 85
       },
@@ -259,14 +263,17 @@ const AdminDashboard = () => {
             {/* Action Buttons */}
             <div className='flex justify-between'>
             <div className="flex gap-3">
-              <button className="bg-cyan-500 hover:bg-cyan-600 border border-white text-white px-4 py-2 rounded-lg cursor-crosshair text-sm font-medium">
+              <button className="bg-cyan-500 hover:bg-cyan-600 flex items-center  border border-white text-white px-4 py-2 rounded-lg cursor-crosshair text-md font-bold">
+                <Pen className='size-5 mr-1'/>
                 Edit Event
               </button>
-              <button className="border border-white text-white bg-red-500 cursor-pointer px-4 py-2 rounded-lg text-sm font-medium">
+              <button className="border border-white text-white flex items-center bg-red-500 cursor-pointer px-4 py-2 rounded-lg text-md font-bold">
+                <Ban className='size-5 mr-1'/>
                 Stop Registrations
               </button>
             </div>
-              <button className="border border-white text-white bg-red-500 cursor-pointer px-4 py-2 rounded-lg text-sm font-medium">
+              <button className="border border-white text-white bg-red-500 cursor-pointer px-4 py-2 rounded-lg text-md font-bold flex items-center">
+                <X className='size-5 mr-1'/>
                 Close Event
               </button>
             </div>
@@ -489,28 +496,136 @@ const AdminDashboard = () => {
                         <span className="text-sm">{event.venue}</span>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3 text-sm">
-                      <div className="text-cyan-400">{event.attendance.attended} attended</div>
-                      <div className="text-gray-500">{event.attendance.capacity} capacity</div>
-                    </div>
-                    <div className="mt-2 bg-gray-800 rounded-full h-1.5">
-                      <div 
-                        className="bg-cyan-400 h-full rounded-full" 
-                        style={{ width: `${event.attendance.rate}%` }}
-                      ></div>
-                    </div>
-                    <div className="mt-1 text-xs text-gray-400">
-                      {event.attendance.rate}% attendance rate
-                    </div>
-                  </div>
+                   <div className="mt-2 bg-gray-800 rounded-full h-1.5">
+                   </div>
+                 </div>
                 </div>
               ))}
             </div>
           </div>
         );
-      default:
-        return null;
+      case 'Create New Event':
+        return (
+          <div className="flex-1 p-8">
+            <header className="mb-8">
+              <h1 className="text-2xl font-bold text-white mb-2">Create New Event</h1>
+              <p className="text-gray-400">Fill in the details below to create a new public event</p>
+            </header>
+
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-[#0B1121] rounded-xl border border-gray-700 p-6">
+                <form className="space-y-6">
+                  {/* Event Banner Upload */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Event Banner</label>
+                    <div className="border-2 border-dashed border-gray-700 rounded-lg p-8">
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-4">
+                          <Upload className="w-6 h-6 text-cyan-400" />
+                        </div>
+                        <p className="text-cyan-400 mb-1">Click to upload banner image</p>
+                        <p className="text-gray-400 text-sm">PNG, JPG, GIF up to 10MB</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Event Title */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">
+                      Event Title <span className="text-cyan-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter event title"
+                      className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                    />
+                  </div>
+
+                  {/* Event Description */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">
+                      Event Description
+                    </label>
+                    <textarea
+                      rows="4"
+                      placeholder="Describe your event..."
+                      className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                    ></textarea>
+                  </div>
+
+                  {/* Date and Time */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-300 mb-2">
+                        Event Date <span className="text-cyan-400">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-300 mb-2">
+                        Event Time <span className="text-cyan-400">*</span>
+                      </label>
+                      <input
+                        type="time"
+                        className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Venue */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">
+                      Venue <span className="text-cyan-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter event venue/location"
+                      className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                    />
+                  </div>
+
+                  {/* Capacity and Category */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-300 mb-2">
+                        Max Team Size
+                      </label>
+                      <input
+                        type="number"
+                        placeholder="Choose a number"
+                        className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-300 mb-2">
+                        Day of event
+                      </label>
+                      <select className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500">
+                        <option value="">Select Day</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-4 pt-4">
+                    <button type="submit" className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white py-2 rounded-lg font-medium transition-colors">
+                      Create Event
+                    </button>
+                   <button type="button" className="flex-1 border border-gray-700 text-gray-400 hover:text-white py-2 rounded-lg font-medium transition-colors">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        );
     }
   };
 
