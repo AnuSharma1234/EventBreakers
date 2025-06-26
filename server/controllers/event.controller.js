@@ -15,7 +15,8 @@ export const createEvent = async (req,res) => {
             date,
             day,
             venue,
-            teamSize,
+            maxTeamSize,
+            minTeamSize,
             otherDesc
         } = req.body
 
@@ -25,7 +26,8 @@ export const createEvent = async (req,res) => {
             date,
             day,
             venue,
-            teamSize,
+            maxTeamSize,
+            minTeamSize,
             otherDesc,
         })
 
@@ -33,12 +35,11 @@ export const createEvent = async (req,res) => {
             success : true,
             message : 'Event succesfully created',
         })
-
     }catch(error){
-        console.log("Error in create Event : ",error.message)
+        console.log("Error in create event controller : ",error.message)
         res.status(400).json({
             success : false,
-            message : error.message ||"Failed to create a event , try again"
+            message : error.message ||"Server : Failed to create a event , try again"
         })
     }
 }
@@ -68,7 +69,8 @@ export const updateEvent = async (req,res) =>{
             date : req.body.date || event.date,
             day : req.body.day || event.day,
             venue : req.body.venue || event.venue,
-            teamSize : req.body.teamSize || event.teamSize,
+            maxTeamSize : req.body.maxTeamSize || event.maxTeamSize,
+            minTeamSize : req.body.minTeamSize || event.minTeamSize,
             otherDesc : req.body.otherDesc || event.otherDesc,
             isLive : req.body.isLive || event.isLive,
             isFull : req.body.isFull || event.isFull,

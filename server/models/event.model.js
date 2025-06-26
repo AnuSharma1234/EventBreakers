@@ -20,7 +20,10 @@ const eventSchema = mongoose.Schema({
         type : String,
         required : [true , "event venue is required"]
     },
-    teamSize : {
+    minTeamSize : {
+        type : Number
+    },
+    maxTeamSize : {
         type : Number,
     },
     otherDesc : {
