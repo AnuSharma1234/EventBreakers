@@ -12,5 +12,4 @@ const getUserRole = () => {
     return userRole
 }
 
-
 export default getUserRole

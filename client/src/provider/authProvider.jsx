@@ -11,27 +11,32 @@ const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
     const [token, setToken_] = useState(localStorage.getItem("token"))
+    const [isAdmin , setIsAdmin_] = useState(localStorage.getItem("isAdmin") === 'true')
 
-    const setToken = (newToken) => {
+    const setToken = (newToken,userIsAdmin) => {
         setToken_(newToken)
+        setIsAdmin_(userIsAdmin)
     }
 
     useEffect(() => {
         if (token) {
             axios.defaults.headers.common["Authorization"] = "Bearer" + token
             localStorage.setItem('token', token)
+            localStorage.setItem('isAdmin',isAdmin)
         } else {
             delete axios.defaults.headers.common["Authorization"];
             localStorage.removeItem('token')
+            localStorage.removeItem('isAdmin')
         }
-    }, [token])
+    }, [token,isAdmin])
 
     const contextValue = useMemo(
         () => ({
             token,
+            isAdmin,
             setToken
         }),
-        [token]
+        [token,isAdmin]
     )
 
     return (

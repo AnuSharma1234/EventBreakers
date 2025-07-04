@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import getUserRole from "../provider/userRoleProvider";
+import { useAuth } from "../provider/authProvider";
 
 export default function Home() {
     const navigate = useNavigate()
-    const isAdmin = getUserRole()
+    const {isAdmin} = useAuth()
 
     useEffect(()=>{
         if(isAdmin){
             navigate('/admin')
         }
-    })
+    },[isAdmin,navigate])
 
   return (
     <div className="min-h-screen bg-black text-white">

@@ -6,7 +6,6 @@ import React from "react"
 import axios from "axios"
 import { toast , ToastContainer } from "react-toastify"
 
-
 const Login = () => {
     const {setToken} = useAuth()
 
@@ -28,14 +27,17 @@ const Login = () => {
 
         try{
             const res = await axios.post('http://localhost:5000/auth/signin',form)
+            const isAdmin = res.data.user.isAdmin
 
-            setToken(res.data.token)
-            if(res.data.isAdmin){
+            setToken(res.data.token,isAdmin)
+
+            if(isAdmin === 'true'){
                 navigate('/admin')
             }else{
                 navigate('/')
             }
-       }catch(error){
+
+        }catch(error){
             console.log(error.message)
             handleError('Incorrect Email or Password!')
         }

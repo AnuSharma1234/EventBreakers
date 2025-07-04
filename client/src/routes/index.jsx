@@ -11,7 +11,6 @@ import CreateEvent from '../adminPages/CreateEvent.jsx'
 import {AdminRoute} from '../routes/AdminRoute.jsx'
 import EventRegister from "../pages/EventRegister.jsx"
 import EditEvent from "../adminPages/EditEvent.jsx"
-import CloseEvent from "../adminPages/CloseEvent.jsx"
 
 
 const Routes = () => {
@@ -54,11 +53,7 @@ const Routes = () => {
                             path : '/admin/edit',
                             element : <EditEvent/> 
                         },
-                        {
-                            path : '/admin/close',
-                            element : <CloseEvent/> 
-                        },
-                   ]
+                  ]
                 }
             ]
         }
