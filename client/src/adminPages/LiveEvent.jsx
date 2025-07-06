@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useEffect , useState } from 'react'
+import axios from 'axios'
+import { useAuth } from '../provider/authProvider'
 import { Calendar , Clock , MapPin , Users ,Pen , Ban ,X } from 'lucide-react'
 
 const LiveEventCard = () =>{
+    const {token} = useAuth()
+    const [liveEventData, setLiveEventData] = useState(null)
+
+    const fetchLiveEvents = async () =>{
+        const res = await axios.get('http://localhost:5000/',{
+            headers : {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        if(res.data.success){
+            setLiveEventData(res.data.allEvents)
+        }
+    }
+
+    useEffect(()=>{
+        try{
+            fetchLiveEvents()
+        }catch(error){
+            console.log('Error fetching the event details'+error.message)
+        }
+    })
+
     return(
       <div className="bg-[#0B1121] rounded-2xl overflow-hidden border border-gray-800">
         <div className="relative border border-zinc-600">
@@ -9,7 +33,7 @@ const LiveEventCard = () =>{
           <div className="relative h-[400px] bg-gradient-to-br from-gray-800 to-gray-900">
             <div className="absolute top-4 left-4">
               <span className="bg-red-500/80 text-white px-3 py-1 rounded-full text-sm font-medium">
-                LIVE NOW
+              LIVE NOW
               </span>
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -22,17 +46,17 @@ const LiveEventCard = () =>{
           {/* Event Details */}
           <div className="p-6 border bg-[#0B1121]">
             <h2 className="text-2xl font-bold text-white mb-3">
-              Hacksphere 3.0
+                {liveEventData.title}
             </h2>
             <p className="text-gray-400 mb-6">
-              A 8 hour hackathon, hosted by thecodebreakers
+                {liveEventData.otherDesc}
             </p>
 
             {/* Event Meta Information */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="flex items-center gap-2 text-gray-300">
                 <Calendar className="w-4 h-4 text-cyan-400" />
-                <span className="text-sm">December 18, 2024</span>
+                <span className="text-sm">{liveEventData.date}</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <Clock className="w-4 h-4 text-cyan-400" />
@@ -40,11 +64,11 @@ const LiveEventCard = () =>{
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <MapPin className="w-4 h-4 text-cyan-400" />
-                <span className="text-sm">San Francisco Convention Center</span>
+                <span className="text-sm">{liveEventData.venue}</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300">
                 <Users className="w-4 h-4 text-cyan-400" />
-                <span className="text-sm">2,847 attendees</span>
+                <span className="text-sm">{liveEventData.minTeamSize}-{liveEventData.maxTeamSize}</span>
               </div>
             </div>
 

@@ -11,6 +11,7 @@ import CreateEvent from '../adminPages/CreateEvent.jsx'
 import {AdminRoute} from '../routes/AdminRoute.jsx'
 import EventRegister from "../pages/EventRegister.jsx"
 import EditEvent from "../adminPages/EditEvent.jsx"
+import LiveEventCard from "../adminPages/LiveEvent.jsx"
 
 
 const Routes = () => {
@@ -46,8 +47,8 @@ const Routes = () => {
                             element : <CreateEvent/>
                         },
                         {
-                            path : '/admin/manage/:event_id',
-                            element : <ManageEvent/> 
+                            path : '/admin/liveEvent/:event_id',
+                            element : <LiveEventCard/> 
                         },
                         {
                             path : '/admin/edit',
