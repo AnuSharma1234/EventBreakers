@@ -16,8 +16,8 @@ export const signUp = async (req, res) => {
     try {
         const { name,  email, password } = req.body
  
-        if (!email || !password || !name) {
-            const error = new Error('Both credentials are required for Sign-Up')
+        if (!email || !name) {
+            const error = new Error('Email and name are required for Sign-Up')
             throw error
         }
 
@@ -32,12 +32,16 @@ export const signUp = async (req, res) => {
             throw error
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10)
-
-        const user = User.create({ name ,email, password: hashedPassword , isAdmin : false})
+        let user
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10)
+            user = await User.create({ name, email, password: hashedPassword, isAdmin: false })
+        } else {
+            user = await User.create({ name, email, password: null, isAdmin: false })
+        }
 
         const token = jwt.sign(
-            {user},
+            user.toJSON(),
             process.env.TOKEN_KEY,
             {expiresIn : '30d'}
         )
@@ -78,6 +82,12 @@ export const signIn = async (req, res) => {
             throw error
         }
 
+        if (user.isGoogleAuth) {
+            const error = new Error('Please sign in with Google')
+            error.statusCode = 400
+            throw error
+        }
+
         const isPassValid = await bcrypt.compare(password, user.password)
 
         if (!isPassValid) {
@@ -95,7 +105,7 @@ export const signIn = async (req, res) => {
             token,
             message : "Logged in Succesfully",
             user : {
-                id : user._id , name : user.name , email : user.email , isAdmin : user.isAdmin , isRegisterdForLatesEvent : user.isRegisterdForLatesEvent
+                id : user._id , name : user.name , email : user.email , isAdmin : user.isAdmin , isRegisterdForLatesEvent : user.isRegisterdForLatestEvent
             }
         })
 

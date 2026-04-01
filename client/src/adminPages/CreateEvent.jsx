@@ -91,7 +91,7 @@ const CreateEvent = () =>{
             formData.append(key, eventForm[key])
         })
 
-      const response = await axios.post('http://localhost:5000/event', formData , {
+      const response = await axios.post('http://localhost:8000/event', formData , {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -217,7 +217,9 @@ const CreateEvent = () =>{
                       <label className="block text-gray-300 mb-2">
                         Event Day
                       </label>
-                      <select className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
+                      <select 
+                        value={eventForm.day}
+                        className="w-full bg-[#1A2234] text-gray-300 px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-cyan-500"
                         onChange={(e)=>setEventForm({
                             ...eventForm,
                             day : e.target.value
@@ -227,6 +229,10 @@ const CreateEvent = () =>{
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
                         <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
                       </select>
                     </div>
                   </div>

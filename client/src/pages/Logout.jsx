@@ -1,21 +1,17 @@
-import { useAuth } from "../provider/authProvider"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-
-const Logout = () => {
-    const { setToken } = useAuth()
+const Logout = ({ setAuth }) => {
     const navigate = useNavigate()
 
-    const handleLogout = () => {
-        setToken();
-        navigate('/', { replace: true })
-    }
+    useEffect(() => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('isAdmin')
+        setAuth({ token: null, isAdmin: false })
+        navigate('/')
+    }, [navigate, setAuth])
 
-    setTimeout(() => {
-        handleLogout()
-    }, 3 * 1000)
-
-    return <>Logout Page</>
+    return null
 }
 
 export default Logout

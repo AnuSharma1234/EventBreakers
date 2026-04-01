@@ -12,7 +12,11 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required"]
+        default: null
+    },
+    isGoogleAuth: {
+        type: Boolean,
+        default: false
     },
     isAdmin: {
         type: Boolean,

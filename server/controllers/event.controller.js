@@ -77,12 +77,12 @@ export const updateEvent = async (req,res) =>{
             registrations : req.body.registrations || event.registrations
         }
 
-        event = await Event.findByIdAndUpdate(id , data, {new : true})
+        const updatedEvent = await Event.findByIdAndUpdate(id , data, {new : true})
 
         res.status(200).json({
             success : true,
             message : 'Event updated succesfully',
-            data : event
+            data : updatedEvent
         })
 
     }catch(error){
@@ -172,7 +172,7 @@ export const getEventById = async(req,res) =>{
 export const closeEvent = async (req,res) => {
     const id  = req.params.id
     try{
-        const event = Event.findById(id)
+        const event = await Event.findById(id)
 
         if(!event){
             res.status(400).json({
@@ -180,11 +180,12 @@ export const closeEvent = async (req,res) => {
             })
         }
 
-        event = findByIdAndUpdate(id , event.isLive = false , {new : true})
+        const updatedEvent = await Event.findByIdAndUpdate(id , {isLive : false} , {new : true})
 
         res.status(200).json({
             success : true,
-            message : 'Event closed succesfully'
+            message : 'Event closed succesfully',
+            data : updatedEvent
         })
 
     }catch(error){
@@ -199,7 +200,7 @@ export const stopEventRegistratons = async (req,res) => {
     const id = req.params.id
 
     try{
-        const event = Event.findById(id)
+        const event = await Event.findById(id)
 
         if(!event){
             res.status(400).json({
@@ -208,11 +209,12 @@ export const stopEventRegistratons = async (req,res) => {
             })
         }
 
-        event = findByIdAndUpdate(id, event.isFull = true, {new : true})
+        const updatedEvent = await Event.findByIdAndUpdate(id, {isFull : true}, {new : true})
 
         res.status(200).json({
             success : true,
-            message : "Event will no longer take registrations"
+            message : "Event will no longer take registrations",
+            data : updatedEvent
         })
 
     }catch(error){

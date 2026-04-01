@@ -16,7 +16,7 @@ export const registerEvent = async (req,res) =>{
 
     const newRegistration = Team(req.body)
 
-    const existingTeam = await Team.findOne(newRegistration.leaderEmail)
+    const existingTeam = await Team.findOne({leaderEmail: newRegistration.leaderEmail})
 
     if(existingTeam){
         res.status(400).json({
@@ -78,7 +78,7 @@ export const deleteAllRegistrations = async (req,res) =>{
 
 export const deleteRegistration = async (req , res) =>{
     try{
-        const deleteResult = await Registration.deleteOne(req.params.id)
+        const deleteResult = await Registration.deleteOne({_id : req.params.id})
         res.status(200).json({
             success : true,
             message : `Deleted`
